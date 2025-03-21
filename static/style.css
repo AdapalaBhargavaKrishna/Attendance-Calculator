@@ -11,30 +11,31 @@ body {
     background-color: #262730;
 }
 
-.main{
+.main {
     display: flex;
 }
 
 /* <-----------------Cbit-Portal-----------------> */
 
-.cbit-portal{
+.cbit-portal {
     width: 20vw;
     height: 100vh;
     background-color: #262730;
     color: white;
     padding: 1rem;
-    position: fixed; /* Fixed position for the left panel */
+    position: fixed;
+    /* Fixed position for the left panel */
     top: 0;
     left: 0;
 }
 
-.back{
+.back {
     display: flex;
     align-items: center;
     justify-content: right;
 }
 
-.portal-login{
+.portal-login {
     margin-top: 15rem;
     gap: 1rem;
     display: flex;
@@ -43,7 +44,7 @@ body {
     align-items: center;
 }
 
-.input-portal{
+.input-portal {
     padding: 1rem;
     border-radius: 15px;
     border: none;
@@ -52,7 +53,7 @@ body {
     width: 91%;
 }
 
-.submit-portal{
+.submit-portal {
     padding: 10px;
     margin-top: 10px;
     background: linear-gradient(45deg, #4CAF50, #2ECC71);
@@ -63,7 +64,7 @@ body {
     width: 70%;
 }
 
-.submit-portal:hover{
+.submit-portal:hover {
     background: linear-gradient(45deg, #2ECC71, #4CAF50);
 }
 
@@ -83,12 +84,13 @@ body {
 
 /* <-----------------Timetable-----------------> */
 
-.cbit-timetable{
-    display: none;
+.cbit-timetable {
+    display: flex;
 }
 
-.attendance-portal > h1 {
+.attendance-portal>h1 {
     margin: 1rem;
+    margin-top: 8rem;
 }
 
 .attendance {
@@ -107,7 +109,7 @@ body {
     margin-top: 1rem;
 }
 
-.attendance-header > h1 {
+.attendance-header>h1 {
     margin-top: 5px;
 }
 
@@ -155,7 +157,7 @@ body {
 }
 
 .subject-attendance table tr:nth-child(even) {
-    background-color: #2a2a2a;  
+    background-color: #2a2a2a;
 }
 
 .subject-attendance table tr:hover {
@@ -176,7 +178,7 @@ body {
     padding: 2rem;
 }
 
-.att-divs{
+.att-divs {
     height: 40vh;
     width: 100%;
     border-radius: 20px;
@@ -194,7 +196,8 @@ body {
     padding: 20px;
 }
 
-.classes-attended, .total-classes {
+.classes-attended,
+.total-classes {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -202,7 +205,8 @@ body {
     justify-content: left;
 }
 
-.classes-attended p, .total-classes p {
+.classes-attended p,
+.total-classes p {
     margin-bottom: 10px;
     font-size: 14px;
 }
@@ -263,8 +267,38 @@ button.plus-btn:hover {
 
 /* <-----------------Subjectwise-----------------> */
 
-.subjectwise-attendace{
-    display: none;
+.subjectwise-attendace {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+}
+
+.subject-dropdown select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #0e1117;
+    color: white;
+    border: 1px solid #525252;
+    margin-bottom: 1rem;
+}
+
+.classes-skip {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.subject-total {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+
 }
 
 /* <-----------------Future-----------------> */
@@ -274,7 +308,8 @@ button.plus-btn:hover {
     padding: 20px;
 }
 
-.attend-plan, .skip-plan {
+.attend-plan,
+.skip-plan {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -282,7 +317,8 @@ button.plus-btn:hover {
     justify-content: left;
 }
 
-.attend-plan p, .skip-plan p {
+.attend-plan p,
+.skip-plan p {
     margin-bottom: 10px;
     font-size: 14px;
 }
@@ -325,7 +361,7 @@ button.plus-btn:hover {
     width: 13px;
 }
 
-.planning-alert{
+.planning-alert {
     background-color: #172d43;
     color: white;
     padding: 1.5rem;
@@ -356,14 +392,13 @@ button.plus-btn:hover {
     padding: 20px;
 }
 
-.target-slider{
+.target-slider {
     position: relative;
-    margin: 20px 0;
-}
-
-.slider-wrapper{
-    position: relative;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .target-slider p {
@@ -371,7 +406,29 @@ button.plus-btn:hover {
     font-size: 14px;
 }
 
-.needed-class{
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.slider-value {
+    position: absolute;
+    top: -25px;
+    left: 75%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    color: #ff4b4b;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    font-size: 14px;
+    width: 100%;
+}
+
+.needed-class {
     font-size: 1.2rem;
 }
 
@@ -391,16 +448,29 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="range"] {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
-    height: 8px;
-    background: #353942;
+    height: 5px;
+    background: #2e2e2e;
     border-radius: 5px;
     outline: none;
     margin: 0;
 }
 
+/* Styling the slider thumb */
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #ff4b4b;
+    /* Red ball */
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -5px;
+    /* Center the ball on the slider */
+}
+
+input[type="range"]::-moz-range-thumb {
     width: 15px;
     height: 15px;
     background: #ff4b4b;
@@ -408,16 +478,8 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
-input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: #ff4b4b;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
 input[type="range"]::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, red 75%, #2e2e2e 75%);
-    /* height: 0px; */
+    background: linear-gradient(to right, #ff4b4b 75%, #2e2e2e 75%);
+    height: 5px;
     border-radius: 5px;
 }
