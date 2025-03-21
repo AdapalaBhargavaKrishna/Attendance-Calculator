@@ -189,7 +189,22 @@
                     <h1 class="Future-percentage">0.00%</h1>
 
                 </div>
-                <div class="att-divs target-calculator"><h2>Target Calculator</h2></div>
+
+                <div class="att-divs target-calculator">
+                  <h2>Target Calculator</h2>
+              
+                  <div class="target-slider">
+                      <p>Target Percentage</p>
+                      <div class="slider-wrapper">
+                        <input type="range" id="targetRange" min="0" max="100" value="75" oninput="updateSliderValue(this)">
+                        <span id="sliderValue" class="slider-value">75</span>
+                    </div>
+                  </div>
+              
+                  <div class="needed-class">Classes Needed to reach</div>
+                  <h1 class="needed-percentage">0.00%</h1>
+              </div>
+              
             </div>
         </div>
     </div>
