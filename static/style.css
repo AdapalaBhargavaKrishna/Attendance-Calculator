@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: #262730;
+}
+
+.main{
+    display: flex;
+}
+
+/* <-----------------Cbit-Portal-----------------> */
+
+.cbit-portal{
+    width: 20vw;
+    height: 100vh;
+    background-color: #262730;
+    color: white;
+    padding: 1rem;
+    position: fixed; /* Fixed position for the left panel */
+    top: 0;
+    left: 0;
+}
+
+.back{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.portal-login{
+    margin-top: 15rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-portal{
+    padding: 1rem;
+    border-radius: 15px;
+    border: none;
+    background-color: black;
+    color: white;
+    width: 91%;
+}
+
+.submit-portal{
+    padding: 10px;
+    margin-top: 10px;
+    background: linear-gradient(45deg, #4CAF50, #2ECC71);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 70%;
+}
+
+.submit-portal:hover{
+    background: linear-gradient(45deg, #2ECC71, #4CAF50);
+}
+
+/* <-----------------Attendance-----------------> */
+
+.attendance-portal {
+    background-color: #0e1117;
+    color: white;
+    width: 80vw;
+    margin-left: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+/* <-----------------Timetable-----------------> */
+
+.cbit-timetable{
+    display: none;
+}
+
+.attendance-portal > h1 {
+    margin: 1rem;
+}
+
+.attendance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.attendance-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 40%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.attendance-header > h1 {
+    margin-top: 5px;
+}
+
+.att-percentage {
+    margin-top: 0.6rem;
+}
+
+.att-message {
+    color: green;
+    margin: 0.7rem;
+}
+
+.subject-wise {
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: -10px;
+}
+
+.subject-attendance {
+    margin-top: 1rem;
+    width: 90%;
+    overflow-x: auto;
+}
+
+.subject-attendance table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.subject-attendance th,
+.subject-attendance td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.subject-attendance table th {
+    background: linear-gradient(45deg, #128818, #029f0a);
+    color: white;
+}
+
+.subject-attendance table tr:nth-child(even) {
+    background-color: #2a2a2a;  
+}
+
+.subject-attendance table tr:hover {
+    scale: 1.01;
+}
+
+.subject-attendance table td {
+    vertical-align: top;
+}
+
+/* <-----------------Attendance-calculator-----------------> */
+
+.Attendance-calculator {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.att-divs{
+    height: 40vh;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.att-divs h2 {
+    margin-bottom: 20px;
+}
+
+/* <-----------------Current-Atrtendance-----------------> */
+
+.current-attendance {
+    text-align: center;
+    padding: 20px;
+}
+
+.classes-attended, .total-classes {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: left;
+}
+
+.classes-attended p, .total-classes p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.attended-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    width: 100%;
+    padding: 1px;
+    padding-left: 5px;
+    border-radius: 8px;
+}
+
+.attended-input input {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
+}
+
+.attended-input input:hover {
+    outline: none;
+    box-shadow: none;
+}
+
+.attended-input button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 5px;
+}
+
+.attended-input img {
+    height: 20px;
+    width: 13px;
+}
+
+.Current-percentage {
+    font-size: 40px;
+    color: #3498db;
+    margin-top: 10px;
+}
+
+button.minus-btn:hover {
+    background-color: #ff4c4c;
+    transition: background-color 0.3s ease;
+}
+
+button.plus-btn:hover {
+    background-color: #4caf50;
+    transition: background-color 0.3s ease;
+}
+
+/* <-----------------Subjectwise-----------------> */
+
+.subjectwise-attendace{
+    display: none;
+}
+
+/* <-----------------Future-----------------> */
+
+.future-planning {
+    text-align: center;
+    padding: 20px;
+}
+
+.attend-plan, .skip-plan {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: left;
+}
+
+.attend-plan p, .skip-plan p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.attendance-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    width: 100%;
+    padding: 1px;
+    padding-left: 5px;
+    border-radius: 8px;
+}
+
+.attendance-input input {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
+}
+
+.attendance-input input:hover {
+    outline: none;
+    box-shadow: none;
+}
+
+.attendance-input button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 5px;
+}
+
+.attendance-input img {
+    height: 20px;
+    width: 13px;
+}
+
+.planning-alert{
+    background-color: #172d43;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+}
+
+.Future-percentage {
+    display: none;
+    font-size: 40px;
+    color: #3498db;
+    margin-top: 10px;
+}
+
+button.minus-btn:hover {
+    background-color: #ff4c4c;
+    transition: background-color 0.3s ease;
+}
+
+button.plus-btn:hover {
+    background-color: #4caf50;
+    transition: background-color 0.3s ease;
+}
+
+/* <-----------------Target-----------------> */
+
+/* <-----------------Extra-----------------> */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Calculator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="cbit-portal">
+            <div class="back">
+                <img src="/static/backw.svg" alt="">
+            </div>
+
+            <div class="portal-login">
+
+                <h2>CBIT Portal</h2>
+                <input class="input-portal" type="text" name="username" placeholder="Enter CBIT Username" required>
+                <!-- <input class="input-portal" type="password" name="password" placeholder="Enter Password" required> -->
+                <input class="submit-portal" type="submit" value="Get Attendance">
+            </div>
+        </div>
+
+        <div class="attendance-portal">
+            <div class="cbit-timetable">
+                <div class="attendance">
+                    <div class="attendance-header">
+                        <h1>Attendance:</h1>
+                        <div class="total-attendance">
+                            <h1 class="att-percentage">90.2%</h1>
+                        </div>
+                    </div>
+                    <p class="att-message">Noob attendance go and bunk lil bro</p>
+
+
+                    <div class="subject-wise">
+                      <!-- <div class="att-wise-heading">
+                        <h2>Subject-Wise Attendance</h2>
+                        <button onclick="showDateWise()">view Date-Wise</button>
+                      </div> -->
+                      <div class="subject-attendance">
+                        <table>
+                          <tr>
+                            <th>S.No</th>
+                            <th>Subject</th>
+                            <th>Classes Held</th>
+                            <th>Classes Attended</th>
+                            <th>Attendance %</th>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Probability and Queuing Theory</td>
+                            <td>40</td>
+                            <td>36</td>
+                            <td>90.0%</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>DC Circuits, Sensors, and Transducers</td>
+                            <td>38</td>
+                            <td>35</td>
+                            <td>92.1%</td>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Database Management and Systems</td>
+                            <td>40</td>
+                            <td>35</td>
+                            <td>87.5%</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Design and Analysis of Algorithms</td>
+                            <td>38</td>
+                            <td>34</td>
+                            <td>89.4%</td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td>Engineering Economics and Accountancy</td>
+                            <td>42</td>
+                            <td>38</td>
+                            <td>90.4%</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>Environmental Science</td>
+                            <td>39</td>
+                            <td>34</td>
+                            <td>87.2%</td>
+                          </tr>
+                          <tr>
+                            <td>5</td>
+                            <td>Professional Elective - 1</td>
+                            <td>35</td>
+                            <td>30</td>
+                            <td>85.7%</td>
+                          </tr>
+                          <tr>
+                            <td>6</td>
+                            <td>Database Management Systems Lab</td>
+                            <td>20</td>
+                            <td>18</td>
+                            <td>90.0%</td>
+                          </tr>
+                          <tr>
+                            <td>7</td>
+                            <td>Algorithms Lab</td>
+                            <td>18</td>
+                            <td>16</td>
+                            <td>88.9%</td>
+                          </tr>
+                          <tr>
+                            <td>8</td>
+                            <td>Mini Project - 1</td>
+                            <td>15</td>
+                            <td>14</td>
+                            <td>93.3%</td>
+                          </tr>
+                          <tr>
+                            <td>9</td>
+                            <td>Mentoring</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>100.0%</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    
+                  </div>
+            </div>
+            <h1>Attendance Calculator</h1>
+        
+            <div class="Attendance-calculator">
+
+                <div class="att-divs current-attendance">
+                    <h2>Current Attendance</h2>
+            
+                    <div class="classes-attended">
+                        <p>Classes Attended</p>
+                        <div class="attended-input">
+                            <input type="number" min="0" value="0">
+                            <button class="minus-btn"><img src="/static/minus.svg" alt="-"></button>
+                            <button class="plus-btn"><img src="/static/plus.svg" alt="+"></button>
+                        </div>
+                    </div>
+            
+                    <div class="total-classes">
+                        <p>Total Classes</p>
+                        <div class="attended-input">
+                            <input type="number" min="0" value="0">
+                            <button class="minus-btn"><img src="/static/minus.svg" alt="-"></button>
+                            <button class="plus-btn"><img src="/static/plus.svg" alt="+"></button>
+                        </div>
+                    </div>
+            
+                    <h1 class="Current-percentage">0.00%</h1>
+                </div>
+
+                <div class="att-divs subjectwise-attendace"><h2>Subject-wise attendance</h2></div>
+
+                <div class="att-divs future-planning">
+                    <h2>Future Scenario Planning</h2>
+
+                    <div class="attend-plan">
+                        <p>Classes planning to attend</p>
+                        <div class="attendance-input">
+                            <input type="number" min="0" value="0">
+                            <button class="minus-btn"><img src="/static/minus.svg" alt="-"></button>
+                            <button class="plus-btn"><img src="/static/plus.svg" alt="+"></button>
+                        </div>
+                    </div>
+            
+                    <div class="skip-plan">
+                        <p>Classes planning to skip</p>
+                        <div class="attendance-input">
+                            <input type="number" min="0" value="0">
+                            <button class="minus-btn"><img src="/static/minus.svg" alt="-"></button>
+                            <button class="plus-btn"><img src="/static/plus.svg" alt="+"></button>
+                        </div>
+                    </div>
+            
+                    <div class="planning-alert">
+                        <p>Enter the number of classes you plan to attend or skip</p>
+                    </div>
+
+                    <h1 class="Future-percentage">0.00%</h1>
+
+                </div>
+                <div class="att-divs target-calculator"><h2>Target Calculator</h2></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
