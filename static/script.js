@@ -8,75 +8,161 @@ document.addEventListener('DOMContentLoaded', function () {
     /* <-----------------Close Sidebar-----------------> */
 
     function showRight() {
-        gsap.to(cbitPortal, {
-            width: 0,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-            onComplete: function () {
-                cbitPortal.style.display = 'none';
-                gsap.to(rightButton, {
-                    display: 'flex',
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.4,
-                });
-            },
-        });
+        if (window.innerWidth > 768) {
+            // For larger screens (desktop)
+            gsap.to(cbitPortal, {
+                width: 0,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+                onComplete: function () {
+                    cbitPortal.style.display = 'none';
+                    gsap.to(rightButton, {
+                        display: 'flex',
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.4,
+                    });
+                },
+            });
 
-        gsap.to(portalLogin, {
-            scale: 0,
-            opacity: 0,
-            duration: 0.1,
+            gsap.to(portalLogin, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.1,
 
-        });
+            });
 
-        gsap.to(attendancePortal, {
-            width: '100vw',
-            marginLeft: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-        });
+            gsap.to(attendancePortal, {
+                width: '100vw',
+                marginLeft: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+            });
 
+        } else {
+            // For smaller screens (mobile/tablets)
+            console.log("Mobile view triggered for showRight");  // Debugging log
+            gsap.to(cbitPortal, {
+                width: 0,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+                onComplete: function () {
+                    cbitPortal.style.display = 'none';
+                    gsap.to(rightButton, {
+                        display: 'flex',
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.4,
+                    });
+                },
+            });
+
+            gsap.to(portalLogin, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.1,
+
+            });
+
+            gsap.to(attendancePortal, {
+                width: '100vw',
+                marginLeft: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+            });
+
+            gsap.to(rightButton, {
+                opacity: 1,
+                duration: 0.3,
+                onComplete: function () {
+                    rightButton.style.visibility = 'visible'; // Hide the right button
+                },
+            });
+
+        }
     }
 
-    /* <-----------------Show Sidebar-----------------> */
 
     function showBack() {
-        cbitPortal.style.display = 'block';
+        if (window.innerWidth > 768) {
+            // For larger screens (desktop)
+            cbitPortal.style.display = 'block';
 
-        gsap.to(cbitPortal, {
-            width: '20vw',
-            opacity: 1,
-            duration: 0.8,
-            ease: 'power2.out',
-        });
+            gsap.to(cbitPortal, {
+                width: '20vw',
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power2.out',
+            });
 
-        gsap.to(portalLogin, {
-            scale: 1,
-            opacity: 1,
-            duration: 0.8,
+            gsap.to(portalLogin, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.8,
 
-        });
+            });
 
-        gsap.to(attendancePortal, {
-            width: '80vw',
-            marginLeft: '20vw',
-            duration: 0.8,
-            ease: 'power2.out',
-        });
+            gsap.to(attendancePortal, {
+                width: '80vw',
+                marginLeft: '20vw',
+                duration: 0.8,
+                ease: 'power2.out',
+            });
 
-        gsap.to(rightButton, {
-            opacity: 0,
-            duration: 0.3,
-            onComplete: function () {
-                rightButton.style.display = 'none';
-            },
-        });
+            gsap.to(rightButton, {
+                opacity: 0,
+                duration: 0.3,
+                onComplete: function () {
+                    rightButton.style.display = 'none';
+                },
+            });
+
+        } else {
+            console.log("Mobile view triggered");
+
+            cbitPortal.style.display = 'block';
+            cbitPortal.style.visibility = 'visible';
+
+            gsap.to(cbitPortal, {
+                width: '100vw',
+                opacity: 1,
+                duration: 0.8,
+                zIndex: 1000,
+                ease: 'power2.out',
+            });
+
+            gsap.to(portalLogin, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.8,
+
+            });
+
+            gsap.to(attendancePortal, {
+                width: '80vw',
+                marginLeft: '20vw',
+                duration: 0.8,
+                ease: 'power2.out',
+            });
+
+            gsap.to(rightButton, {
+                opacity: 0,
+                duration: 0.3,
+                onComplete: function () {
+                    rightButton.style.display = 'none';
+                },
+            });
+
+        }
     }
 
+    // Event listeners for showing/hiding the sidebar
     backButton.addEventListener('click', showRight);
     rightButton.addEventListener('click', showBack);
+
+
 });
 
 /* <-----------------Attendance Table-----------------> */

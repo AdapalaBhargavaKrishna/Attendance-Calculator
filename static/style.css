@@ -5,6 +5,17 @@
     font-family: 'Poppins', sans-serif;
 }
 
+:root {
+    --cbitportal-color: #262730;
+    --attportal-color: #0e1117;
+    --text-color: #ffffff;
+    --nums-color: #3498db;
+    --planalert-color: #172d43;
+    --input-color: #333;
+    --button-background: #333333;
+    --button-text-color: #ffffff;
+}
+
 html {
     scroll-behavior: smooth;
   }
@@ -12,7 +23,11 @@ html {
 body {
     height: 100vh;
     width: 100vw;
-    background-color: #262730;
+    background-color: var(--attportal-color);
+}
+
+h2, p{
+    color: var(--text-color);
 }
 
 .main {
@@ -24,7 +39,7 @@ body {
 .cbit-portal {
     width: 20vw;
     height: 100vh;
-    background-color: #262730;
+    background-color: var(--cbitportal-color);
     color: white;
     padding: 1rem;
     position: fixed;
@@ -74,7 +89,7 @@ body {
 /* <-----------------Attendance-----------------> */
 
 .attendance-portal {
-    background-color: #0e1117;
+    background-color: var(--attportal-color);
     color: white;
     width: 80vw;
     margin-left: 20vw;
@@ -85,14 +100,14 @@ body {
     overflow-y: scroll;
 }
 
-/* <-----------------Theme-----------------> */
+/* <-----------------Right-----------------> */
 
 .right{
     display: none;
     left: 3rem;
     top: 1rem;
     position: fixed;
-    background-color: #262730;
+    background-color: var(--cbitportal-color);
     border: 0.5px solid #424242;
     border-radius: 15px;
     padding: 0.5rem;
@@ -100,12 +115,6 @@ body {
 
 .right:hover{
     scale: 1.05;
-}
-
-.theme{
-    position: fixed;
-    right: 3rem;
-    top: 1rem;
 }
 
 /* <-----------------Cbit Table-----------------> */
@@ -218,7 +227,7 @@ body {
 .attendance-portal>h1 {
     margin-top: 5px;
     margin-bottom: 1rem;
-
+    color: var(--text-color);
 }
 
 /* <-----------------Attendance-calculator-----------------> */
@@ -268,7 +277,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #333;
+    background-color: var(--input-color);
     width: 100%;
     padding: 1px;
     padding-left: 5px;
@@ -304,7 +313,7 @@ body {
 
 .Current-percentage {
     font-size: 40px;
-    color: #3498db;
+    color: var(--nums-color);
     margin-top: 10px;
 }
 
@@ -331,7 +340,7 @@ button.plus-btn:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #333;
+    background-color: var(--input-color);
     width: 100%;
     padding: 1px;
     padding-left: 5px;
@@ -370,7 +379,7 @@ button.plus-btn:hover {
     border-radius: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
-    background-color: #0e1117;
+    background-color: var(--attportal-color);
     color: white;
     border: 1px solid #525252;
     margin-bottom: 1rem;
@@ -398,7 +407,7 @@ button.plus-btn:hover {
 
 .subject-percentage{
     font-size: 40px;
-    color: #3498db;
+    color: var(--nums-color);
     margin-top: 10px;
 }
 
@@ -438,7 +447,7 @@ button.plus:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #333;
+    background-color: var(--input-color);
     width: 100%;
     padding: 1px;
     padding-left: 5px;
@@ -473,7 +482,7 @@ button.plus:hover {
 }
 
 .planning-alert {
-    background-color: #172d43;
+    background-color: var(--planalert-color);
     color: white;
     padding: 1.5rem;
     border-radius: 15px;
@@ -482,7 +491,7 @@ button.plus:hover {
 .Future-percentage {
     display: none;
     font-size: 40px;
-    color: #3498db;
+    color: var(--nums-color);
     margin-top: 10px;
 }
 
@@ -542,15 +551,17 @@ button.plus-btn:hover {
 
 .needed-class {
     font-size: 1.2rem;
+    color: var(--text-color);
 }
 
 .bunk-class{
     display: none;
+    color: var(--text-color);
 }
 
 .needed-percentage {
     font-size: 40px;
-    color: #3498db;
+    color: var(--nums-color);
     margin-top: 10px;
 }
 
@@ -609,5 +620,65 @@ input[type="range"]::-moz-range-thumb {
 /* <-----------------Mobile-----------------> */
 
 @media (max-width: 768px) {
+    .cbit-portal {
+        width: 0;
+        visibility: hidden;
+    }
+    
+    .attendance-portal {
+        margin-top: 10rem;
+        width: 100vw;
+        scrollbar-width: none;
+        margin-left: 0;
+    }
+    
+    .right {
+        display: flex;
+        left: 1rem;
+    }
 
+    .theme{
+        top: 1.5rem;
+    }
+
+    .attendance-portal>h1 {
+        font-size: 3rem;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .cbit-table{
+        width: 100vw;
+    }
+
+    .attendance{
+        width: 100%;
+    }
+
+    .attendance-header{
+        width: 80%;
+    }
+
+    .subject-wise{
+        width: 100vw;
+    }
+
+    .subject-attendance{
+        scrollbar-width: none;
+    }
+
+    .att-divs{
+        box-shadow: none;
+    }
+
+    .Attendance-calculator {
+        width: 100%;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .subject-dropdown select{
+        margin-top: 0.5rem;
+    }
 }
