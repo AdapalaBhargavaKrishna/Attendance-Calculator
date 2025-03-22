@@ -6,21 +6,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import json
+import os
 
 app = Flask(__name__)
 
-# Route to serve the index HTML
 @app.route('/')
 def index():
-    return render_template('index.html')  # Serves index.html from 'templates/' folder
+    return render_template('index.html')  
 
 def get_table_data(userpass):
-    userpass += "P"  # Appends "P" to the roll number
+    userpass += "P"  
 
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Headless mode for Selenium
+    chrome_options.add_argument("--headless")  
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920,1080")
+
+    user_data_dir = "/tmp/chrome-user-data"
+    if not os.path.exists(user_data_dir):
+        os.makedirs(user_data_dir)
+    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
 
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("https://erp.cbit.org.in/Login.aspx")
@@ -55,9 +60,9 @@ def get_table_data(userpass):
 
 @app.route('/get_data', methods=['POST'])
 def fetch_data():
-    roll_number = request.json['username']  # Fetch data sent via POST (JSON)
+    roll_number = request.json['username'] 
     json_data = get_table_data(roll_number)
-    return jsonify(json.loads(json_data))  # Return JSON response
+    return jsonify(json.loads(json_data))
 
 if __name__ == '__main__':
     app.run(debug=True)
