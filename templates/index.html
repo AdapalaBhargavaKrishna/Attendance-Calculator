@@ -22,7 +22,7 @@
         <button class="submit-portal" onclick="fetchAttendance()">Get Attendance</button>
 
         <div id="loading" style="display: none;">
-          <img src="/static/loading.gif" alt="Loading..."> <!-- You can add a loading spinner here -->
+          <img src="/static/loading1.gif" alt="Loading...">
         </div>
 
       </div>
@@ -107,15 +107,16 @@
           <div class="subject-dropdown">
               <label for="subjectDropdown">Select Subject:</label>
               <select id="subjectDropdown" onchange="filterAttendance()">
+                  <option value="select">ALL</option>
               </select>
           </div>
       
           <div class="classes-skip">
               <p>Classes planning to skip</p>
-              <div class="attended-input">
+              <div class="subjectwise-input">
                   <input type="number" min="0" value="0">
-                  <button class="minus-btn"><img src="/static/minus.svg" alt="-"></button>
-                  <button class="plus-btn"><img src="/static/plus.svg" alt="+"></button>
+                  <button class="minus-btn minus"><img src="/static/minus.svg" alt="-"></button>
+                  <button class="plus-btn plus"><img src="/static/plus.svg" alt="+"></button>
               </div>
           </div>
       
@@ -124,10 +125,10 @@
                   <p>Subject Attendance:</p>
                   <h1 class="subject-percentage">0.00%</h1>
               </div>
-              <div class="total">
+              <!-- <div class="total">
                   <p>Total Attendance</p>
                   <h1 class="total-percentage">0.00%</h1>
-              </div>
+              </div> -->
           </div>
       </div>
       

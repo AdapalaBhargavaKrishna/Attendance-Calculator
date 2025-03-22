@@ -79,33 +79,32 @@ document.addEventListener('DOMContentLoaded', function () {
     rightButton.addEventListener('click', showBack);
 });
 
-/* <-----------------Attendance Timetable-----------------> */
+/* <-----------------Attendance Table-----------------> */
 
 document.addEventListener('DOMContentLoaded', function () {
     const submitButton = document.querySelector('.submit-portal');
     const usernameInput = document.querySelector('.input-portal');
-    const timetableDiv = document.querySelector('.cbit-table');
+    const cbitTableDiv = document.querySelector('.cbit-table');
     const arrowDownDiv = document.querySelector('.arrow-down');
     const subjectwiseDiv = document.querySelector('.subjectwise-attendace');
-    const loadingDiv = document.getElementById('loading');  // Get the loading div
+    const loadingDiv = document.getElementById('loading');
 
     submitButton.addEventListener('click', function () {
         const inputValue = usernameInput.value;
 
         if (/^\d{12}$/.test(inputValue)) {
-            // Show loading animation
-            loadingDiv.style.display = 'block';
-            // Hide the table initially
-            timetableDiv.style.display = 'none';
 
-            // Fetch the attendance data
+            loadingDiv.style.display = 'block';
+            cbitTableDiv.style.display = 'none';
+
             fetchAttendance(inputValue);
         } else {
             alert('Please enter exactly 12 digits.');
         }
     });
 
-    // Function to fetch attendance data from the backend
+    /* <-----------------Fetch Table-----------------> */
+
     function fetchAttendance(rollNumber) {
         fetch('/get_data', {
             method: 'POST',
@@ -116,28 +115,27 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
-                // Hide loading animation
+
                 loadingDiv.style.display = 'none';
 
-                // Display the timetable and other elements
-                gsap.fromTo(timetableDiv, { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1, display: 'flex' });
+                gsap.fromTo(cbitTableDiv, { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1, display: 'flex' });
                 gsap.fromTo(arrowDownDiv, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 1, display: 'flex' });
                 subjectwiseDiv.style.display = 'flex';
 
-                // Populate the table with fetched data
-                populateAttendanceTable(data);
+                GetAttendanceTable(data);
             })
             .catch(error => {
                 console.error('Error fetching attendance data:', error);
-                loadingDiv.style.display = 'none'; // Hide loading animation in case of error
+                loadingDiv.style.display = 'none';
                 alert('Failed to fetch attendance data. Please try again.');
             });
     }
 
-    // Function to dynamically fill the table with the fetched JSON data
-    function populateAttendanceTable(data) {
+    /* <-----------------Fill Table-----------------> */
+
+    function GetAttendanceTable(data) {
         const tableBody = document.getElementById('attendance-body');
-        tableBody.innerHTML = "";  // Clear any existing rows
+        tableBody.innerHTML = "";
         console.log(data)
 
         let totalAttendancePercentage = 0;
@@ -146,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
             data.forEach((row, index) => {
                 const tr = document.createElement('tr');
 
-                // Create and append table cells (td) for each value in the row
                 tr.innerHTML = `
                     <td>${row["SlNo"] || index + 1}</td>  <!-- S.No -->
                     <td>${row["Subject"] || "N/A"}</td>  <!-- Subject Name -->
@@ -155,54 +152,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${row["Att %"] || "0%"}</td>     <!-- Attendance Percentage -->
                 `;
 
-                tableBody.appendChild(tr);  // Append the row to the table body
+                tableBody.appendChild(tr);
 
                 if (row["Faculty"] === "Total" && row["Att %"]) {
                     totalAttendancePercentage = row["Att %"];
                 }
             });
 
-            // Show the attendance table if there is data
             document.getElementById("attendanceTable").style.display = "table";
-
             document.querySelector('.att-percentage').textContent = totalAttendancePercentage + "%";
         } else {
-            // If no data is returned, display a message
             document.getElementById("attendanceTable").style.display = "none";
             alert("No data found for the entered roll number.");
         }
     }
-
-    // Helper function to update the attendance percentage
-    function updatePercentage() {
-        const attendedClasses = document.querySelector('.current-attendance input[type="number"]:nth-child(1)').value;
-        const totalClasses = document.querySelector('.current-attendance input[type="number"]:nth-child(3)').value;
-        const currentPercentage = (attendedClasses / totalClasses) * 100 || 0;
-        document.querySelector('.Current-percentage').textContent = currentPercentage.toFixed(2) + "%";
-    }
-
-    // Helper function for subject dropdown (if needed)
-    function filterAttendance() {
-        const selectedSubject = document.getElementById("subjectDropdown").value;
-        const rows = document.querySelectorAll("#attendance-body tr");
-
-        rows.forEach(row => {
-            const subjectCell = row.querySelector('td:nth-child(2)').textContent;
-            if (selectedSubject === "all" || subjectCell === selectedSubject) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
-    }
-
-    // Update slider value for target percentage
-    function updateSliderValue(slider) {
-        document.getElementById("sliderValue").textContent = slider.value;
-    }
 });
-
-
 
 /* <-----------------Attendance Calculator-----------------> */
 
@@ -212,7 +176,6 @@ document.querySelector('.arrow-down').addEventListener('click', function (e) {
         behavior: 'smooth'
     });
 });
-
 
 const minusButtons = document.querySelectorAll('.minus-btn');
 const plusButtons = document.querySelectorAll('.plus-btn');
@@ -226,6 +189,9 @@ minusButtons.forEach(button => {
         if (currentValue > 0) {
             inputField.value = currentValue - 1;
             updateAttendancePercentage();
+            updateFutureAttendance();
+            autoUpdateSlider();
+            subjectAttendance();
         }
     });
 });
@@ -237,16 +203,84 @@ plusButtons.forEach(button => {
         const inputField = this.previousElementSibling.previousElementSibling;
         inputField.value = parseInt(inputField.value) + 1;
         updateAttendancePercentage();
+        updateFutureAttendance();
+        autoUpdateSlider();
+        subjectAttendance();
+    });
+});
+
+/* <-----------------Input Attendance-----------------> */
+
+document.querySelectorAll('.attended-input input').forEach((inputField) => {
+    inputField.addEventListener('input', function () {
+        updateAttendancePercentage();
+        updateFutureAttendance()
+        autoUpdateSlider();
+        subjectAttendance();
+    });
+});
+
+document.querySelectorAll('.attendance-input input').forEach((inputField) => {
+    inputField.addEventListener('input', function () {
+        updateFutureAttendance();
     });
 });
 
 /* <-----------------Total Attendance-----------------> */
 
-document.querySelectorAll('.attended-input input').forEach((inputField) => {
-    inputField.addEventListener('input', function () {
-        updateAttendancePercentage();
+function updateAttendancePercentage() {
+    const classesAttended = parseInt(document.querySelector('.classes-attended input').value);
+    const totalClasses = parseInt(document.querySelector('.total-classes input').value);
+    const percentageElement = document.querySelector('.Current-percentage');
+
+    if (totalClasses > 0) {
+        const percentage = ((classesAttended / totalClasses) * 100).toFixed(2);
+        percentageElement.textContent = `${percentage}%`;
+    } else {
+        percentageElement.textContent = '0.00%';
+    }
+}
+
+/* <-----------------Current Attendance-----------------> */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const table = document.querySelector(".subject-attendance table tbody");
+
+    if (table) {
+        const observer = new MutationObserver((mutationsList, observer) => {
+            const subjectCells = document.querySelectorAll(".subject-attendance table tbody tr td:nth-child(2)");
+
+            if (subjectCells.length > 0) {
+                initializeCurrentAttendance();
+                observer.disconnect();
+            }
+        });
+        observer.observe(table, { childList: true, subtree: true });
+    } else {
+        console.error("Table not found!");
+    }
+
+    function initializeCurrentAttendance() {
+        const lastRow = table.querySelector("tr:last-child");
+        const attendedInput = document.querySelector('.current-attendance .classes-attended input');
+        const totalClassesInput = document.querySelector('.current-attendance .total-classes input');
+
+        const classesAttended = parseInt(lastRow.querySelector('td:nth-child(4)').textContent.trim(), 10) || 0;
+        const totalClasses = parseInt(lastRow.querySelector('td:nth-child(3)').textContent.trim(), 10) || 0;
+
+        attendedInput.value = classesAttended;
+        totalClassesInput.value = totalClasses;
+
+        updateCurrentAttendancePercentage(classesAttended, totalClasses);
+    }
+
+    function updateCurrentAttendancePercentage(classesAttended, totalClasses) {
+        const percentage = (totalClasses > 0) ? ((classesAttended / totalClasses) * 100).toFixed(2) : 0;
+        const percentageElement = document.querySelector('.current-attendance .Current-percentage');
+        percentageElement.textContent = `${percentage}%`;
         autoUpdateSlider();
-    });
+
+    }
 });
 
 /* <-----------------Subject Attendance-----------------> */
@@ -260,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (subjectCells.length > 0) {
                 initializeAttendance();
-                observer.disconnect(); // Disconnect observer once the content is loaded
+                observer.disconnect();
             }
         });
         observer.observe(table, { childList: true, subtree: true });
@@ -271,14 +305,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function initializeAttendance() {
         const subjectDropdown = document.getElementById("subjectDropdown");
         const subjectSet = new Set();
-        const subjectPercentage = document.querySelector('.subject-percentage');
-        const totalPercentage = document.querySelector('.total-percentage');
-        const attendedInput = document.querySelector('.attended-input input');
+        const subjectwiseInput = document.querySelector('.subjectwise-input input');
 
         const subjectCells = document.querySelectorAll(".subject-attendance table tbody tr td:nth-child(2)");
-
-        console.log("Subject cells:", subjectCells);
-        console.log("initialized");
 
         subjectCells.forEach(cell => {
             const subjectText = cell.textContent.trim();
@@ -287,13 +316,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        console.log("Unique subjects set:", subjectSet);
-
-        const allSubjectsOption = document.createElement("option");
-        allSubjectsOption.value = "all";
-        allSubjectsOption.textContent = "All Subjects";
-        subjectDropdown.appendChild(allSubjectsOption);
-
         subjectSet.forEach(subject => {
             const option = document.createElement("option");
             option.value = subject;
@@ -301,146 +323,77 @@ document.addEventListener('DOMContentLoaded', function () {
             subjectDropdown.appendChild(option);
         });
 
-        subjectDropdown.value = "all";
-
         subjectDropdown.addEventListener('change', function () {
-            filterAttendance(subjectDropdown.value);
-            // updateAttendance();
+            subjectAttendance();
         });
 
-        // Event listener for input field change
-        attendedInput.addEventListener('input', updateAttendance);
+        subjectwiseInput.addEventListener('input', function () {
+            subjectAttendance();
+        });
 
-        // Function to update attendance based on the skipped classes input
-        function updateAttendance() {
-            const skippedClasses = parseInt(attendedInput.value, 10) || 0;
-            const subjectDropdown = document.getElementById("subjectDropdown");
-            const selectedSubject = subjectDropdown.value;
-            const rows = document.querySelectorAll(".subject-attendance table tbody tr");
+        /* <-----------------Decrement Input-----------------> */
 
-            let totalClassesHeld = 0;
-            let totalClassesAttended = 0;
-            let subjectClassesHeld = 0;
-            let subjectClassesAttended = 0;
-
-            rows.forEach(row => {
-                const subjectCell = row.querySelector('td:nth-child(2)'); // Get the subject column cell
-                if (!subjectCell) return; // Skip rows without subject column
-                const subjectText = subjectCell.textContent.trim();
-
-                // Extract classes held and classes attended for each row
-                const classesHeldCell = row.querySelector('td:nth-child(3)');
-                const classesAttendedCell = row.querySelector('td:nth-child(4)');
-
-                const classesHeld = parseInt(classesHeldCell.textContent.trim()) || 0;
-                const classesAttended = parseInt(classesAttendedCell.textContent.trim()) || 0;
-
-                // If "All Subjects" is selected, update total classes
-                if (selectedSubject === "all" || subjectText === selectedSubject) {
-                    totalClassesHeld += classesHeld;
-                    totalClassesAttended += classesAttended;
-
-                    // If the selected subject matches, update the subject attendance as well
-                    if (selectedSubject === subjectText) {
-                        subjectClassesHeld = classesHeld;
-                        subjectClassesAttended = classesAttended;
-                    }
+        const minusButtons = document.querySelectorAll('.minus');
+        minusButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const inputField = this.closest('.subjectwise-input').querySelector('input');
+                let currentValue = parseInt(inputField.value);
+                if (currentValue > 0) {
+                    inputField.value = currentValue - 1;
+                    subjectAttendance();
                 }
             });
+        });
 
-            // Calculate the subject attendance percentage
-            const subjectTotalClasses = subjectClassesHeld + skippedClasses;
-            const subjectAttendedClasses = subjectClassesAttended + skippedClasses;
-            const subjectAttPercentage = ((subjectAttendedClasses / subjectTotalClasses) * 100).toFixed(2);
-            subjectPercentage.textContent = `${subjectAttPercentage}%`;
-
-            // Calculate the total attendance percentage
-            const totalTotalClasses = totalClassesHeld + skippedClasses;
-            const totalAttendedClasses = totalClassesAttended + skippedClasses;
-            const totalAttPercentage = ((totalAttendedClasses / totalTotalClasses) * 100).toFixed(2);
-            totalPercentage.textContent = `${totalAttPercentage}%`;
-        }
-
-        // Function to filter attendance by subject
-        function filterAttendance() {
-            const subjectDropdown = document.getElementById("subjectDropdown");
-            const selectedSubject = subjectDropdown.value;
-            const rows = document.querySelectorAll(".subject-attendance table tbody tr");
-            const attendedInput = document.querySelector('.attended-input input');
-            const subjectPercentage = document.querySelector('.subject-percentage');
-            const totalPercentage = document.querySelector('.total-percentage');
-            const skippedClasses = parseInt(attendedInput.value, 10) || 0;
-            const lastRow = rows[rows.length - 1];
-            const overallClassesHeld = lastRow.querySelectorAll("td")[2];
-            const overallClassesAttended = lastRow.querySelectorAll("td")[3];
-
-
-            let totalClassesHeld = 0;
-            let totalClassesAttended = 0;
-
-            rows.forEach(row => {
-                const subjectCell = row.querySelector('td:nth-child(2)'); // Get the subject column cell
-                if (!subjectCell) return; // Skip rows without subject column
-                const subjectText = subjectCell.textContent.trim();
-
-                // If the selected subject matches, calculate the attendance for that subject
-                if (subjectText === selectedSubject) {
-                    const classesHeldCell = row.querySelector('td:nth-child(3)');
-                    const classesAttendedCell = row.querySelector('td:nth-child(4)');
-
-                    const classesHeld = parseInt(classesHeldCell.textContent.trim()) || 0;
-                    const classesAttended = parseInt(classesAttendedCell.textContent.trim()) || 0;
-
-                    // Add to the total classes held and attended for calculating total attendance
-                    totalClassesHeld += classesHeld + skippedClasses;
-                    totalClassesAttended += classesAttended;
-
-                    // Calculate the subject attendance percentage
-                    const subjectAttendancePercentage = ((classesAttended / classesHeld) * 100).toFixed(2);
-                    subjectPercentage.textContent = `${subjectAttendancePercentage}%`;
-
-
-                    overallClassesHeld += skippedClasses;
-                    const overallClassesPercentage = ((overallClassesAttended / overallClassesHeld) * 100).toFixed(2);
-                    totalPercentage.textContent = `${overallClassesPercentage}%`;
-
-                }
+        /* <-----------------Increment Input-----------------> */
+        const plusButtons = document.querySelectorAll('.plus');
+        plusButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const inputField = this.closest('.subjectwise-input').querySelector('input');
+                inputField.value = parseInt(inputField.value) + 1;
+                subjectAttendance();
             });
+        });
 
-            if (selectedSubject === "all") {
-                const skippedClasses = parseInt(attendedInput.value, 10) || 0;
-                const attendedClasses = overallClassesAttended;
-                const totalClasses = overallClassesHeld + skippedClasses;
-                const totalAttendancePercentage = ((attendedClasses / totalClasses) * 100).toFixed(2);
-                totalPercentage.textContent = `${totalAttendancePercentage}%`;
-                subjectPercentage.textContent = `${totalAttendancePercentage}%`;
+        subjectAttendance();
+    }
+
+    /* <-----------------Subject Attendance Predict-----------------> */
+
+    function subjectAttendance() {
+        const skippedClasses = parseInt(document.querySelector('.subjectwise-input input').value, 10) || 0;
+        const subjectDropdown = document.getElementById("subjectDropdown");
+        const selectedSubject = subjectDropdown.value;
+
+        const rows = document.querySelectorAll(".subject-attendance table tbody tr");
+        const subjectPercentage = document.querySelector('.subject-percentage');
+
+        let subjectClassesHeld = 0;
+        let subjectClassesAttended = 0;
+
+        rows.forEach(row => {
+            const subjectCell = row.querySelector('td:nth-child(2)');
+            if (!subjectCell) return;
+            const subjectText = subjectCell.textContent.trim();
+
+            const classesHeldCell = row.querySelector('td:nth-child(3)');
+            const classesAttendedCell = row.querySelector('td:nth-child(4)');
+
+            const classesHeld = parseInt(classesHeldCell.textContent.trim()) || 0;
+            const classesAttended = parseInt(classesAttendedCell.textContent.trim()) || 0;
+
+            if (selectedSubject === "select" || subjectText === selectedSubject) {
+                subjectClassesHeld += classesHeld;
+                subjectClassesAttended += classesAttended;
             }
+        });
 
-        }
-
-        // updateAttendance();
+        const subjectTotalClasses = subjectClassesHeld + skippedClasses;
+        const subjectAttPercentage = ((subjectClassesAttended / subjectTotalClasses) * 100).toFixed(2);
+        subjectPercentage.textContent = `${subjectAttPercentage}%`;
     }
+
 });
-
-
-
-
-/* <-----------------Total Attendance-----------------> */
-
-function updateAttendancePercentage() {
-    const classesAttended = parseInt(document.querySelector('.classes-attended input').value);
-    const totalClasses = parseInt(document.querySelector('.total-classes input').value);
-    const percentageElement = document.querySelector('.Current-percentage');
-    const totalPercentage = document.querySelector('.total-percentage');
-
-    if (totalClasses > 0) {
-        const percentage = ((classesAttended / totalClasses) * 100).toFixed(2);
-        percentageElement.textContent = `${percentage}%`;
-        totalPercentage.textContent = `${percentage}%`;
-    } else {
-        percentageElement.textContent = '0.00%';
-    }
-}
 
 /* <-----------------Future Attendance-----------------> */
 
@@ -455,6 +408,7 @@ function updateFutureAttendance() {
     const futureTotal = currentTotal + planningToAttend + planningToSkip;
 
     let futurePercentage = 0;
+
     if (futureTotal > 0) {
         futurePercentage = (futureAttended / futureTotal) * 100;
     }
@@ -474,13 +428,18 @@ function updateFutureAttendance() {
     }
 }
 
+/* <-----------------Target Attendance-----------------> */
 
 function updateSliderValue(slider) {
     const sliderValueSpan = document.getElementById('sliderValue');
     const targetPercentage = parseInt(slider.value);
     sliderValueSpan.textContent = targetPercentage;
 
-    // Update the slider background dynamically to change the red line length
+    // Update the position of the slider value span
+    const sliderWidth = slider.offsetWidth;
+    const valuePosition = (targetPercentage / 100) * sliderWidth;
+    sliderValueSpan.style.left = `${valuePosition}px`;
+
     slider.style.background = `linear-gradient(to right, #ff4b4b ${targetPercentage}%, #2e2e2e ${targetPercentage}%)`;
 
     const currentAttended = parseInt(document.querySelector('.classes-attended input').value) || 0;
@@ -513,7 +472,6 @@ function updateSliderValue(slider) {
     }
 }
 
-// document.querySelector('.needed-class').style.display = 'none';
 document.querySelector('.bunk-class').style.display = 'none';
 
 function autoUpdateSlider() {
@@ -524,7 +482,3 @@ function autoUpdateSlider() {
 document.getElementById('targetRange').addEventListener('input', function () {
     updateSliderValue(this);
 });
-
-/* <-----------------Cbit Portal-----------------> */
-
-// Fetch attendance data when the "Get Attendance" button is clicked
