@@ -41,8 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } else {
-            // For smaller screens (mobile/tablets)
-            console.log("Mobile view triggered for showRight");  // Debugging log
             gsap.to(cbitPortal, {
                 width: 0,
                 opacity: 0,
@@ -120,8 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         } else {
-            console.log("Mobile view triggered");
-
             cbitPortal.style.display = 'block';
             cbitPortal.style.visibility = 'visible';
 
@@ -209,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 subjectwiseDiv.style.display = 'flex';
 
                 GetAttendanceTable(data);
+                displayMessage(data);
             })
             .catch(error => {
                 console.error('Error fetching attendance data:', error);
@@ -345,6 +342,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error("Table not found!");
     }
+
 
     function initializeCurrentAttendance() {
         const lastRow = table.querySelector("tr:last-child");
@@ -568,3 +566,45 @@ function autoUpdateSlider() {
 document.getElementById('targetRange').addEventListener('input', function () {
     updateSliderValue(this);
 });
+
+/* <-----------------Attendance Message-----------------> */
+
+function displayMessage(data) {
+    let totalPercentage = 0;
+
+    if (data && Array.isArray(data) && data.length > 0) {
+        data.forEach((row, index) => {
+
+            if (row["Faculty"] === "Total" && row["Att %"]) {
+                totalPercentage = row["Att %"];
+            }
+        });
+
+    } else {
+        document.getElementById("attendanceTable").style.display = "none";
+        alert("No data found for the entered roll number.");
+    }
+
+    let message = '';
+        let messageColor = 'green';
+
+        if (totalPercentage >= 90) {
+            message = 'Bunk and touch some grass!';
+        } else if (totalPercentage >= 75) {
+            message = 'Your attendance is solid. Continue maintaining this consistency.';
+        } else if (totalPercentage >= 50) {
+            message = 'Your attendance is satisfactory. Consider improving for better results.';
+        } else {
+            message = 'Your attendance needs improvement. Please make an effort to attend more classes.';
+            messageColor = 'red';
+        }
+
+        console.log(message);
+
+        const attMessageElement = document.querySelector('.att-message');
+
+        if (attMessageElement) {
+            attMessageElement.textContent = message;
+            attMessageElement.style.color = messageColor;
+        }
+}
