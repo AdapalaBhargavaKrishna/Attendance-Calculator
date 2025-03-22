@@ -24,7 +24,6 @@ body {
     color: white;
     padding: 1rem;
     position: fixed;
-    /* Fixed position for the left panel */
     top: 0;
     left: 0;
 }
@@ -80,6 +79,14 @@ body {
     align-items: center;
     height: 100vh;
     overflow-y: scroll;
+}
+
+/* <-----------------Timetable-----------------> */
+
+.theme{
+    position: fixed;
+    right: 3rem;
+    top: 1rem;
 }
 
 /* <-----------------Timetable-----------------> */
@@ -478,17 +485,15 @@ input[type="range"] {
     margin: 0;
 }
 
-/* Styling the slider thumb */
+
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 15px;
     height: 15px;
     background: #ff4b4b;
-    /* Red ball */
     border-radius: 50%;
     cursor: pointer;
     margin-top: -5px;
-    /* Center the ball on the slider */
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -504,6 +509,22 @@ input[type="range"]::-webkit-slider-runnable-track {
     height: 5px;
     border-radius: 5px;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2e2e2e;       
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff4b4b;
+    border-radius: 5px; 
+}
+
+/* <-----------------Mobile-----------------> */
 
 @media (max-width: 768px) {
     
