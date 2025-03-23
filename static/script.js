@@ -281,7 +281,6 @@ minusButtons.forEach(button => {
             updateAttendancePercentage();
             updateFutureAttendance();
             autoUpdateSlider();
-            subjectAttendance();
         }
     });
 });
@@ -295,7 +294,6 @@ plusButtons.forEach(button => {
         updateAttendancePercentage();
         updateFutureAttendance();
         autoUpdateSlider();
-        subjectAttendance();
     });
 });
 
