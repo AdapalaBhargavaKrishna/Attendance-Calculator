@@ -1,0 +1,9 @@
+# Python-related files
+__pycache__/
+*.pyc
+
+# Selenium user data
+/tmp/chrome-user-data
+
+# Environment Variables
+.env

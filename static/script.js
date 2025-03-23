@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function GetAttendanceTable(data) {
         const tableBody = document.getElementById('attendance-body');
         tableBody.innerHTML = "";
-        console.log(data)
+        // console.log(data)
 
         let totalAttendancePercentage = 0;
 
