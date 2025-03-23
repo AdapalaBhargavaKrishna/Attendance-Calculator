@@ -193,17 +193,23 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username: rollNumber })
+            body: JSON.stringify({ username: rollNumber })  // Sending roll number as JSON
         })
-            .then(response => response.json())
+            .then(response => {
+                // Check if response is ok (status 200-299) and is JSON
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();  // Parse JSON only if response is ok
+            })
             .then(data => {
-
+                // Handle successful JSON response
                 loadingDiv.style.display = 'none';
-
+    
                 gsap.fromTo(cbitTableDiv, { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1, display: 'flex' });
                 gsap.fromTo(arrowDownDiv, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 1, display: 'flex' });
                 subjectwiseDiv.style.display = 'flex';
-
+    
                 GetAttendanceTable(data);
                 displayMessage(data);
             })
@@ -213,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('Failed to fetch attendance data. Please try again.');
             });
     }
+    
 
     /* <-----------------Fill Table-----------------> */
 
