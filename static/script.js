@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function GetAttendanceTable(data) {
         const tableBody = document.getElementById('attendance-body');
         tableBody.innerHTML = "";
-        // console.log(data)
+        console.log(data)
 
         let totalAttendancePercentage = 0;
 
@@ -582,7 +582,7 @@ function displayMessage(data) {
 
     } else {
         document.getElementById("attendanceTable").style.display = "none";
-        alert("No data found for the entered roll number.");
+        // alert("No data found for the entered roll number.");
     }
 
     let message = '';
