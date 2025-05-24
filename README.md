@@ -5,6 +5,18 @@ It utilizes **Flask** for the backend, **Selenium** for fetching attendance data
 
 ---
 
+## 🌐 Live Demo
+
+👉 [Try it Live](https://attendance-calculator-tau.vercel.app/)
+
+---
+
+## 📸 Preview
+
+![Attendance Calculator Preview](https://adapalabhargavakrishna.github.io/Web-Development/Portfolio/assets/attendancecalculator.png)
+
+---
+
 ## 🚀 Features
 
 - **User Login** — Allows users to securely log in and calculate their attendance.
@@ -28,3 +40,4 @@ It utilizes **Flask** for the backend, **Selenium** for fetching attendance data
 1. Clone this repository:
    ```bash
    git clone https://github.com/AdapalaBhargavaKrishna/Attendance-Calculator.git
+   cd Attendance-Calculator
