@@ -7,7 +7,7 @@ It utilizes **Flask** for the backend, **Selenium** for fetching attendance data
 
 ## 🌐 Live Demo
 
-👉 [Try it Live](https://attendance-calculator-tau.vercel.app/)
+👉 <a href="https://attendance-calculator-tau.vercel.app/" target="_blank" rel="noopener noreferrer">Try it Live</a>
 
 ---
 
