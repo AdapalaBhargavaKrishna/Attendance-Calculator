@@ -17,6 +17,20 @@ const sidebarVariants = {
   }
 };
 
+const desktopSidebarVariants = {
+  hidden: { width: 0, opacity: 0 },
+  visible: {
+    width: 320,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 12 }
+  },
+  exit: {
+    width: 0,
+    opacity: 0,
+    transition: { duration: 0.3 }
+  }
+};
+
 const inputVariants = {
   focus: {
     scale: 1.02,
@@ -36,9 +50,6 @@ export default function Sidebar({ rollNumber, setRollNumber, fetchAttendance, lo
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
-        setIsOpen(true);
-      }
     };
 
     handleResize();
@@ -52,23 +63,22 @@ export default function Sidebar({ rollNumber, setRollNumber, fetchAttendance, lo
 
   return (
     <>
-      {isMobile && (
-        <button
-          onClick={toggleSidebar}
-          className="fixed z-30 top-4 left-4 p-2 bg-black shadow-lg text-white transition"
-        >
-          {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
-        </button>
-      )}
+      {/* Toggle button - visible always */}
+      <button
+        onClick={toggleSidebar}
+        className="fixed z-30 top-4 left-4 p-2 bg-black shadow-lg text-white rounded-md transition"
+      >
+        {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+      </button>
 
       <AnimatePresence>
-        {(isOpen || !isMobile) && (
+        {isOpen && (
           <motion.aside
-            initial="hidden"
+            initial={isMobile ? "hidden" : "hidden"}
             animate="visible"
             exit="exit"
-            variants={sidebarVariants}
-            className="fixed hidden md:relative z-20 w-80 min-h-screen pt-80 p-6 bg-black md:bg-neutral-950 shadow-2xl rounded-r-full flex flex-col items-center"
+            variants={isMobile ? sidebarVariants : desktopSidebarVariants}
+            className={`${isMobile ? 'fixed' : 'relative'} z-20 w-80 h-screen p-6 bg-neutral-950 rounded-r-[14rem] flex flex-col items-center justify-center`}
           >
             <motion.h2
               className="text-3xl font-extrabold mb-10 text-white tracking-wide"
@@ -95,11 +105,10 @@ export default function Sidebar({ rollNumber, setRollNumber, fetchAttendance, lo
             <motion.button
               onClick={fetchAttendance}
               disabled={loading}
-              className="w-full py-3 px-5 border border-neutral-400 text-white font-semibold rounded-xl shadow-lg relative overflow-hidden transition-all"
+              className="w-full py-3 px-5 border border-neutral-500 text-white font-semibold rounded-xl shadow-lg relative overflow-hidden transition-all"
               variants={buttonVariants}
               initial="initial"
-              whileTap={!loading && "tap"}
-              whileHover={!loading && "hover"}
+              whileTap={!loading ? "tap" : ""}
             >
               {loading ? (
                 <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -113,7 +122,7 @@ export default function Sidebar({ rollNumber, setRollNumber, fetchAttendance, lo
 
               {loading && (
                 <motion.div
-                  className="absolute inset-0 opacity-30"
+                  className="absolute inset-0 bg-purple-800 opacity-30"
                   initial={{ x: "-100%" }}
                   animate={{ x: "100%" }}
                   transition={{
