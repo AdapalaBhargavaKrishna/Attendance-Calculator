@@ -14,8 +14,7 @@ export async function getAttendanceData(userpass) {
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
 
-    // ✅ FIX HERE — remove `.build()`
-    const service = new chrome.ServiceBuilder(chromedriverPath);
+    const service = new chrome.ServiceBuilder('/usr/bin/chromedriver');
 
     driver = await new Builder()
       .forBrowser("chrome")
