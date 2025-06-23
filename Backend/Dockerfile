@@ -1,6 +1,6 @@
 FROM node:18-slim
 
-# Install dependencies and system libraries
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -22,14 +22,15 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Chrome
-ENV CHROME_VERSION=114.0.5735.90
-RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb && \
-    apt install -y ./google-chrome-stable_${CHROME_VERSION}-1_amd64.deb && \
-    rm google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+# Install latest Chrome
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable
 
-# Install matching Chromedriver
-RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip && \
+# Install matching ChromeDriver (auto-matching version)
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
+    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
@@ -37,9 +38,11 @@ RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/11
 ENV CHROME_BIN=/usr/bin/google-chrome
 ENV CHROMEDRIVER=/usr/local/bin/chromedriver
 
+# Set working directory and install node packages
 WORKDIR /app
 COPY . .
 RUN npm install
 
+# Expose port and start app
 EXPOSE 3001
 CMD ["node", "app.js"]
