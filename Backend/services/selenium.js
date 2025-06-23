@@ -18,7 +18,7 @@ export async function getAttendanceData(userpass) {
     driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
-      .setChromeService(service)
+      .setChromeServiceBuilder(service)  // ✅ FIXED method name
       .build();
 
     await driver.get("https://erp.cbit.org.in/Login.aspx");
