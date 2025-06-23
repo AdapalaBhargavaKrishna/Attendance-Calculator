@@ -6,14 +6,20 @@ export async function getAttendanceData(userpass) {
   try {
     userpass += "P"; 
 
-    let options = new chrome.Options();
+    const options = new chrome.Options();
     options.addArguments("--headless=new");
     options.addArguments("--disable-gpu");
     options.addArguments("--window-size=1920,1080");
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
 
-    driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
+    const service = new chrome.ServiceBuilder('/usr/local/bin/chromedriver');
+
+    driver = await new Builder()
+      .forBrowser("chrome")
+      .setChromeOptions(options)
+      .setChromeService(service)
+      .build();
 
     await driver.get("https://erp.cbit.org.in/Login.aspx");
 
