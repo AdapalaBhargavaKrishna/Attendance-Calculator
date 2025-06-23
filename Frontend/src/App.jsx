@@ -15,6 +15,8 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   // State for calculators
   const [currentAttended, setCurrentAttended] = useState(0);
   const [currentTotal, setCurrentTotal] = useState(0);
@@ -53,7 +55,7 @@ export default function App() {
     setAttendanceData(null);
     setErrorMsg("");
     try {
-      const res = await fetch("http://localhost:3001/api/attendance", {
+      const res = await fetch(`${BACKEND_URL}/api/attendance`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: rollNumber }),
@@ -74,12 +76,12 @@ export default function App() {
   // Extract unique subjects for subject-wise attendance
   const subjects = Array.isArray(attendanceData)
     ? [
-        ...new Set(
-          attendanceData
-            .map((row) => row["Subject"])
-            .filter((s) => s && s !== "N/A")
-        ),
-      ]
+      ...new Set(
+        attendanceData
+          .map((row) => row["Subject"])
+          .filter((s) => s && s !== "N/A")
+      ),
+    ]
     : [];
 
   // Find the "Total" row for current attendance
@@ -96,7 +98,7 @@ export default function App() {
   }, [totalRow]);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex min-h-screen max-h-screen bg-black "
@@ -108,7 +110,7 @@ export default function App() {
         loading={loading}
       />
 
-      <motion.main 
+      <motion.main
         className="flex-1 p-6 overflow-y-auto"
         variants={containerVariants}
         initial="hidden"
@@ -118,13 +120,13 @@ export default function App() {
         <div className="text-white md:hidden flex items-center justify-end pb-40 w-full">
           <a href="https://www.linkedin.com/in/bhargavakrishnaadapala/" target="_blank">
 
-          <button className="group active:scale-95 relative inline-flex h-12 items-center justify-center overflow-hidden rounded-2xl px-6 font-medium text-white transition-colors focus:outline-none">
-          <div className="translate-x-0 opacity-100 transition group-hover:-translate-x-[150%] group-hover:opacity-0">Linked In</div>
-            <div className="absolute translate-x-[150%] opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100">
-              <img src={linkedinlogo} alt="" />
-            </div>
-          </button>
-        </a>
+            <button className="group active:scale-95 relative inline-flex h-12 items-center justify-center overflow-hidden rounded-2xl px-6 font-medium text-white transition-colors focus:outline-none">
+              <div className="translate-x-0 opacity-100 transition group-hover:-translate-x-[150%] group-hover:opacity-0">Linked In</div>
+              <div className="absolute translate-x-[150%] opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100">
+                <img src={linkedinlogo} alt="" />
+              </div>
+            </button>
+          </a>
         </div>
         <AnimatePresence>
           {loading && (
@@ -154,7 +156,7 @@ export default function App() {
         </AnimatePresence>
 
         {Array.isArray(attendanceData) && (
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="bg-black rounded-xl shadow-md overflow-auto scrollbar-none mb-24 flex flex-col items-center"
           >
@@ -162,7 +164,7 @@ export default function App() {
           </motion.div>
         )}
 
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8"
           variants={containerVariants}
         >
