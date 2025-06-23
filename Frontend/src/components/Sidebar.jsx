@@ -68,7 +68,7 @@ export default function Sidebar({ rollNumber, setRollNumber, fetchAttendance, lo
             animate="visible"
             exit="exit"
             variants={sidebarVariants}
-            className="fixed md:relative z-20 w-80 min-h-screen pt-80 p-6 bg-black md:bg-neutral-950 shadow-2xl rounded-r-full flex flex-col items-center"
+            className="fixed hidden md:relative z-20 w-80 min-h-screen pt-80 p-6 bg-black md:bg-neutral-950 shadow-2xl rounded-r-full flex flex-col items-center"
           >
             <motion.h2
               className="text-3xl font-extrabold mb-10 text-white tracking-wide"

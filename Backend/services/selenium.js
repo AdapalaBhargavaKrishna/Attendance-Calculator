@@ -1,11 +1,10 @@
 import { Builder, By, Key, until } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
-import { path as chromedriverPath } from 'chromedriver';
 
 export async function getAttendanceData(userpass) {
   let driver;
   try {
-    userpass += "P";
+    userpass += "P"; 
 
     let options = new chrome.Options();
     options.addArguments("--headless=new");
@@ -13,13 +12,8 @@ export async function getAttendanceData(userpass) {
     options.addArguments("--window-size=1920,1080");
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
-    const service = new chrome.ServiceBuilder('/usr/local/bin/chromedriver');
 
-    driver = await new Builder()
-      .forBrowser("chrome")
-      .setChromeOptions(options)
-      .setChromeService(service)  // ✅ pass the ServiceBuilder directly
-      .build();
+    driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
 
     await driver.get("https://erp.cbit.org.in/Login.aspx");
 
