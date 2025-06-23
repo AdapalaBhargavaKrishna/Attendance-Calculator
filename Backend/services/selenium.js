@@ -1,10 +1,11 @@
 import { Builder, By, Key, until } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
+import { path as chromedriverPath } from 'chromedriver';
 
 export async function getAttendanceData(userpass) {
   let driver;
   try {
-    userpass += "P"; 
+    userpass += "P";
 
     let options = new chrome.Options();
     options.addArguments("--headless=new");
@@ -13,7 +14,14 @@ export async function getAttendanceData(userpass) {
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
 
-    driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
+    let service = new chrome.ServiceBuilder(chromedriverPath).build(); // 👈 and this line
+
+    driver = await new Builder()
+      .forBrowser("chrome")
+      .setChromeOptions(options)
+      .setChromeService(service) // 👈 add this
+      .build();
+
 
     await driver.get("https://erp.cbit.org.in/Login.aspx");
 
