@@ -13,8 +13,7 @@ export async function getAttendanceData(userpass) {
     options.addArguments("--window-size=1920,1080");
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
-
-    const service = new chrome.ServiceBuilder('/usr/bin/chromedriver');
+    const service = new chrome.ServiceBuilder('/usr/local/bin/chromedriver');
 
     driver = await new Builder()
       .forBrowser("chrome")
