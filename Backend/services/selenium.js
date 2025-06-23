@@ -14,14 +14,14 @@ export async function getAttendanceData(userpass) {
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
 
-    let service = new chrome.ServiceBuilder(chromedriverPath).build(); // 👈 and this line
+    // ✅ FIX HERE — remove `.build()`
+    const service = new chrome.ServiceBuilder(chromedriverPath);
 
     driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
-      .setChromeService(service) // 👈 add this
+      .setChromeService(service)  // ✅ pass the ServiceBuilder directly
       .build();
-
 
     await driver.get("https://erp.cbit.org.in/Login.aspx");
 
